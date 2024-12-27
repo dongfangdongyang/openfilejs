@@ -1284,11 +1284,29 @@
   t.Deflate = ba, t.Inflate = va, t.constants = Aa, t.default = Ea, t.deflate = ga, t.deflateRaw = pa, t.gzip = ka, t.inflate = ya, t.inflateRaw = xa, t.ungzip = za, Object.defineProperty(t, "__esModule", {value: !0})
 }));
 
-
-
 //
 // // The Base64 + Gzip encoded string
 const encodedString = "H4sIAAAAAAAA/2zOwQqCQBDG8Xf5zpuY0MVzl65FDzDpqEs5u8yOFkTvHoIhpNfhx/efN3w6DyJeWpSmAztQ9BfWkRUlolcy3lH0WRfUguZ5kVWhh0NVyz/rDmOxcje6b7j9yqV6cc9X7+WXzIQNDi31fDouI5OYbnAIWy+3LDYvTCzNmSZoxddYkzHKhh6JP18AAAD//wEAAP//IvGuPwQBAAA=";
+
+// Step 2: Gzip Decompress
+const compressedData = base64ToUint8Array(encodedString);
+const decompressedData = pako.ungzip(compressedData, {to: 'string'});
+
+console.log("Decompressed Data:", decompressedData);
+
+// Step 3: Gzip Compress and Base64 Encode
+const recompressedData = pako.gzip(decompressedData);
+
+
+function uint8ArrayToBase64(uint8Array) {
+  const binaryString = Array.from(uint8Array).map(byte => String.fromCharCode(byte)).join('');
+  return myBtoa(binaryString); // Encode binary string to Base64
+}
+
+const reEncodedString = uint8ArrayToBase64(recompressedData);
+
+console.log("Re-Encoded String:", reEncodedString);
+
 
 
 // Step 1: Base64 Decode
@@ -1301,24 +1319,6 @@ function base64ToUint8Array(base64) {
   }
   return bytes;
 }
-
-// Step 2: Gzip Decompress
-const compressedData = base64ToUint8Array(encodedString);
-const decompressedData = pako.ungzip(compressedData, {to: 'string'});
-
-console.log("Decompressed Data:", decompressedData);
-
-// Step 3: Gzip Compress and Base64 Encode
-const recompressedData = pako.gzip(decompressedData);
-
-function uint8ArrayToBase64(uint8Array) {
-  const binaryString = Array.from(uint8Array).map(byte => String.fromCharCode(byte)).join('');
-  return btoa(binaryString); // Encode binary string to Base64
-}
-
-const reEncodedString = uint8ArrayToBase64(recompressedData);
-
-// console.log("Re-Encoded String:", reEncodedString);
 
 
 function myAtob(encodedStr) {
@@ -1349,6 +1349,41 @@ function myAtob(encodedStr) {
 
   return str;
 }
+
+
+function myBtoa(str) {
+  const base64Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+  let output = '';
+  let char1, char2, char3;
+  let i = 0;
+
+  // Ensure that the input string is in a valid format
+  str = String(str);
+
+  while (i < str.length) {
+    // Get the first 3 characters, padding with 0 if necessary
+    char1 = str.charCodeAt(i++);
+    char2 = str.charCodeAt(i++);
+    char3 = str.charCodeAt(i++);
+
+    // Encode the 3 characters into 4 Base64 characters
+    output += base64Chars.charAt(char1 >> 2);
+    output += base64Chars.charAt(((char1 & 3) << 4) | (char2 >> 4));
+    if (isNaN(char2)) {
+      output += '=';
+    } else {
+      output += base64Chars.charAt(((char2 & 15) << 2) | (char3 >> 6));
+    }
+    if (isNaN(char2) || isNaN(char3)) {
+      output += '=';
+    } else {
+      output += base64Chars.charAt(char3 & 63);
+    }
+  }
+  return output;
+}
+
+
 
 
 // 示例：使用 Pako 解压 gzip 响应
