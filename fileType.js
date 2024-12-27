@@ -46,7 +46,7 @@ function uint8ArrayToBase64(uint8Array) {
 
 const reEncodedString = uint8ArrayToBase64(recompressedData);
 
-console.log("Re-Encoded String:", reEncodedString);
+//console.log("Re-Encoded String:", reEncodedString);
 
 
 function myAtob(encodedStr) {
