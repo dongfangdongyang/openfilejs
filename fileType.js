@@ -1409,10 +1409,6 @@ if ($request.url.indexOf("game/basic/")>-1){
   obj.data = reEncodedString
   console.log("Re-Encoded String:", reEncodedString);
   $done({body: obj});
-}else {
-
-  $done({ body: $response.body });
-
 }
 
 
