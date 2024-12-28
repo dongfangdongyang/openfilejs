@@ -1397,15 +1397,16 @@ var regex = /\/basic/;
 var url = $request.url;
 
 
-console.log("$request.url 11111111111-11111111 Decompressed Data:", $request.url);
+
+console.log("$request.url 11111111111-11111111 Decompressed Data:", url);
 if (regex.test(url)){
 
+  console.log("log-------------log",regex.test(url))
   let obj = JSON.parse($response.body);
   // Step 2: Gzip Decompress
   const compressedData = base64ToUint8Array(obj.data);
   const decompressedData = pako.ungzip(compressedData, {to: 'string'});
   const json = JSON.parse(decompressedData)
-  console.log("Decompressed Data:", json);
   json.energy = 200000;
   json.lastRollerBet = 200
   console.log("Decompressed Data:", json.energy);
@@ -1417,7 +1418,6 @@ if (regex.test(url)){
 
   const reEncodedString = uint8ArrayToBase64(recompressedData);
   obj.data = reEncodedString
-  console.log("Re-Encoded String:", reEncodedString);
   $done({body: obj});
 }
 
