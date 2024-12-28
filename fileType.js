@@ -1291,18 +1291,18 @@ const encodedString = "H4sIAAAAAAAA/2zOwQqCQBDG8Xf5zpuY0MVzl65FDzDpqEs5u8yOFkTvH
 // Step 2: Gzip Decompress
 const compressedData = base64ToUint8Array(encodedString);
 const decompressedData = pako.ungzip(compressedData, {to: 'string'});
-
-console.log("Decompressed Data:", decompressedData);
-decompressedData.energy = 200000;
-decompressedData.lastRollerBet = 200
-decompressedData.isRunning = false
-decompressedData.forceUpdate = "123455444444444"
-console.log("Decompressed Data:", decompressedData.energy);
-console.log("Decompressed Data:", decompressedData.lastRollerBet);
-console.log("Decompressed Data:", decompressedData);
+const json = JSON.parse(decompressedData)
+console.log("Decompressed Data:", json);
+json.energy = 200000;
+json.lastRollerBet = 200
+json.isRunning = false
+json.forceUpdate = "123455444444444"
+console.log("Decompressed Data:", json.energy);
+console.log("Decompressed Data:", json.lastRollerBet);
+console.log("Decompressed Data:", json);
 
 // Step 3: Gzip Compress and Base64 Encode
-const recompressedData = pako.gzip(decompressedData);
+const recompressedData = pako.gzip(json);
 
 
 function uint8ArrayToBase64(uint8Array) {
