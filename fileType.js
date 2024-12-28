@@ -1396,12 +1396,12 @@ var regex = /\/basic/;
 // 捕获请求 URL
 var url = $request.url;
 
-
+console.log("log-------------未经去",regex.test(url))
 
 console.log("$request.url 11111111111-11111111 Decompressed Data:", url);
 if (regex.test(url)){
 
-  console.log("log-------------log",regex.test(url))
+  console.log("log-------------进去了",regex.test(url))
   let obj = JSON.parse($response.body);
   // Step 2: Gzip Decompress
   const compressedData = base64ToUint8Array(obj.data);
