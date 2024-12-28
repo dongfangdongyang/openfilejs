@@ -1388,7 +1388,7 @@ function myBtoa(str) {
   return output;
 }
 
-console.log("$request.url  Decompressed Data:", $request.url);
+console.log("$request.url 11111111111-11111111 Decompressed Data:", $request.url);
 if ($request.url.indexOf("game/basic/")>-1){
   let obj = JSON.parse($response.body);
   // Step 2: Gzip Decompress
