@@ -1388,7 +1388,7 @@ function myBtoa(str) {
   return output;
 }
 
-
+console.log("Decompressed Data:", $request.url);
 if ($request.url.indexOf("game/basic/")){
   let obj = JSON.parse($.response.body);
   // Step 2: Gzip Decompress
@@ -1406,13 +1406,17 @@ if ($request.url.indexOf("game/basic/")){
   const recompressedData = pako.gzip(json);
 
   const reEncodedString = uint8ArrayToBase64(recompressedData);
+  obj.data = reEncodedString
+  console.log("Re-Encoded String:", reEncodedString);
+  $done({body: obj});
+}else {
 
-  // console.log("Re-Encoded String:", reEncodedString);
-  
+  $done({body: $.response.body});
+
 }
 
-//
-//
+
+
 // //示例：使用 Pako 解压 gzip 响应
 // if ($response) {
 //   const gzippedData = encodedString; // 获取 gzip 数据
