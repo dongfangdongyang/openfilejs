@@ -1388,8 +1388,8 @@ function myBtoa(str) {
   return output;
 }
 
-console.log("Decompressed Data:", $request.url);
-if ($request.url.indexOf("game/basic/")){
+console.log("$request.url  Decompressed Data:", $request.url);
+if ($request.url.indexOf("game/basic/")>-1){
   let obj = JSON.parse($response.body);
   // Step 2: Gzip Decompress
   const compressedData = base64ToUint8Array(obj.data);
@@ -1411,7 +1411,7 @@ if ($request.url.indexOf("game/basic/")){
   $done({body: obj});
 }else {
 
-  $done({body:$response.body});
+  $done({ body: $response.body });
 
 }
 
