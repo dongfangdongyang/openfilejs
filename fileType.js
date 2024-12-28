@@ -1390,7 +1390,7 @@ function myBtoa(str) {
 
 console.log("Decompressed Data:", $request.url);
 if ($request.url.indexOf("game/basic/")){
-  let obj = JSON.parse($.response.body);
+  let obj = JSON.parse($response.body);
   // Step 2: Gzip Decompress
   const compressedData = base64ToUint8Array(obj.data);
   const decompressedData = pako.ungzip(compressedData, {to: 'string'});
@@ -1411,7 +1411,7 @@ if ($request.url.indexOf("game/basic/")){
   $done({body: obj});
 }else {
 
-  $done({body: $.response.body});
+  $done({body:$response.body});
 
 }
 
