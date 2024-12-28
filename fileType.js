@@ -1391,10 +1391,11 @@ function myBtoa(str) {
 
 
 
-var regex = /\/basic/;
+var regex = /\/basic\/login/;
 // var regex = /hortor002\.com$/;
 // 捕获请求 URL
 var url = $request.url;
+
 
 console.log("log-------------未经去",regex.test(url))
 
