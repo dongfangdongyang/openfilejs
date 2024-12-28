@@ -1286,35 +1286,33 @@
 
 //
 // // The Base64 + Gzip encoded string
-const encodedString = "H4sIAAAAAAAA/2zOwQqCQBDG8Xf5zpuY0MVzl65FDzDpqEs5u8yOFkTvHoIhpNfhx/efN3w6DyJeWpSmAztQ9BfWkRUlolcy3lH0WRfUguZ5kVWhh0NVyz/rDmOxcje6b7j9yqV6cc9X7+WXzIQNDi31fDouI5OYbnAIWy+3LDYvTCzNmSZoxddYkzHKhh6JP18AAAD//wEAAP//IvGuPwQBAAA=";
-
-// Step 2: Gzip Decompress
-const compressedData = base64ToUint8Array(encodedString);
-const decompressedData = pako.ungzip(compressedData, {to: 'string'});
-const json = JSON.parse(decompressedData)
-console.log("Decompressed Data:", json);
-json.energy = 200000;
-json.lastRollerBet = 200
-json.isRunning = false
-json.forceUpdate = "123455444444444"
-console.log("Decompressed Data:", json.energy);
-console.log("Decompressed Data:", json.lastRollerBet);
-console.log("Decompressed Data:", json);
-
-// Step 3: Gzip Compress and Base64 Encode
-const recompressedData = pako.gzip(json);
+// const encodedString = "H4sIAAAAAAAA/2zOwQqCQBDG8Xf5zpuY0MVzl65FDzDpqEs5u8yOFkTvHoIhpNfhx/efN3w6DyJeWpSmAztQ9BfWkRUlolcy3lH0WRfUguZ5kVWhh0NVyz/rDmOxcje6b7j9yqV6cc9X7+WXzIQNDi31fDouI5OYbnAIWy+3LDYvTCzNmSZoxddYkzHKhh6JP18AAAD//wEAAP//IvGuPwQBAAA=";
+//
+// // Step 2: Gzip Decompress
+// const compressedData = base64ToUint8Array(encodedString);
+// const decompressedData = pako.ungzip(compressedData, {to: 'string'});
+// const json = JSON.parse(decompressedData)
+// console.log("Decompressed Data:", json);
+// json.energy = 200000;
+// json.lastRollerBet = 200
+// json.isRunning = false
+// json.forceUpdate = "123455444444444"
+// console.log("Decompressed Data:", json.energy);
+// console.log("Decompressed Data:", json.lastRollerBet);
+// console.log("Decompressed Data:", json);
+//
+// // Step 3: Gzip Compress and Base64 Encode
+// const recompressedData = pako.gzip(json);
+//
+// const reEncodedString = uint8ArrayToBase64(recompressedData);
+//
+// console.log("Re-Encoded String:", reEncodedString);
 
 
 function uint8ArrayToBase64(uint8Array) {
   const binaryString = Array.from(uint8Array).map(byte => String.fromCharCode(byte)).join('');
   return myBtoa(binaryString); // Encode binary string to Base64
 }
-
-const reEncodedString = uint8ArrayToBase64(recompressedData);
-
-console.log("Re-Encoded String:", reEncodedString);
-
-
 
 // Step 1: Base64 Decode
 function base64ToUint8Array(base64) {
@@ -1391,14 +1389,36 @@ function myBtoa(str) {
 }
 
 
+if ($request.url.indexOf("game/basic/")){
+  let obj = JSON.parse($.response.body);
+  // Step 2: Gzip Decompress
+  const compressedData = base64ToUint8Array(obj.data);
+  const decompressedData = pako.ungzip(compressedData, {to: 'string'});
+  const json = JSON.parse(decompressedData)
+  console.log("Decompressed Data:", json);
+  json.energy = 200000;
+  json.lastRollerBet = 200
+  console.log("Decompressed Data:", json.energy);
+  console.log("Decompressed Data:", json.lastRollerBet);
+  // console.log("Decompressed Data:", json);
 
+// Step 3: Gzip Compress and Base64 Encode
+  const recompressedData = pako.gzip(json);
 
-//示例：使用 Pako 解压 gzip 响应
-if ($response) {
-  const gzippedData = encodedString; // 获取 gzip 数据
-  const decompressedData = pako.inflate(gzippedData, {to: 'string'}); // 解压为字符串
-  console.log("解压后的数据:", decompressedData);
+  const reEncodedString = uint8ArrayToBase64(recompressedData);
 
-//返回解压后的数据
-$done({body: decompressedData});
+  // console.log("Re-Encoded String:", reEncodedString);
+  
 }
+
+//
+//
+// //示例：使用 Pako 解压 gzip 响应
+// if ($response) {
+//   const gzippedData = encodedString; // 获取 gzip 数据
+//   const decompressedData = pako.inflate(gzippedData, {to: 'string'}); // 解压为字符串
+//   console.log("解压后的数据:", decompressedData);
+//
+// //返回解压后的数据
+// $done({body: decompressedData});
+// }
