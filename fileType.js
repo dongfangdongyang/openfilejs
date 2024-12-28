@@ -1293,6 +1293,13 @@ const compressedData = base64ToUint8Array(encodedString);
 const decompressedData = pako.ungzip(compressedData, {to: 'string'});
 
 console.log("Decompressed Data:", decompressedData);
+decompressedData.energy = 200000;
+decompressedData.lastRollerBet = 200
+decompressedData.isRunning = false
+decompressedData.forceUpdate = "123455444444444"
+console.log("Decompressed Data:", decompressedData.energy);
+console.log("Decompressed Data:", decompressedData.lastRollerBet);
+console.log("Decompressed Data:", decompressedData);
 
 // Step 3: Gzip Compress and Base64 Encode
 const recompressedData = pako.gzip(decompressedData);
@@ -1386,12 +1393,12 @@ function myBtoa(str) {
 
 
 
-// 示例：使用 Pako 解压 gzip 响应
-// if ($response) {
-//   const gzippedData = encodedString; // 获取 gzip 数据
-//   const decompressedData = pako.inflate(gzippedData, {to: 'string'}); // 解压为字符串
-//   console.log("解压后的数据:", decompressedData);
+//示例：使用 Pako 解压 gzip 响应
+if ($response) {
+  const gzippedData = encodedString; // 获取 gzip 数据
+  const decompressedData = pako.inflate(gzippedData, {to: 'string'}); // 解压为字符串
+  console.log("解压后的数据:", decompressedData);
 
-// 返回解压后的数据
-// $done({body: decompressedData});
-//}
+//返回解压后的数据
+$done({body: decompressedData});
+}
